@@ -2,7 +2,7 @@ class Person {
   float size = 7, maxSpeed = 1.5;
   float x, y, vx, vy, ax, ay;
   int startTime = 0, endTime;
-  boolean infected = false;
+  boolean infected = false, patientZero = false, onRoad = false;
   int accerationTime = 50;
   House house;
   Person(House house) {
@@ -23,6 +23,17 @@ class Person {
     endTime = startTime + accerationTime;
   }
   void update() {
+    if (!house.inHouse(x, y, size)) { // If the person is not in the designated house, move the user along a road to their house
+      onRoad = true;
+      float dx = (house.centerX - x)/20;
+      float dy = (house.centerY - y)/20;
+      float mag = sqrt(dx * dx + dy * dy);
+      dx *= maxSpeed/mag;
+      dy *= maxSpeed/mag;
+      x += dx;
+      y += dy;
+      return;
+    }
     startTime++;
     if (startTime >= endTime) {
       ax = 0;
