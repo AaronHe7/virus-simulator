@@ -1,33 +1,51 @@
 Simulation simulation = new Simulation();
+Simulation demo = new Simulation();
+Simulation currentSimulation;
+Message message = new Message(200, 30);
+ArrayList<Clickable> buttons = new ArrayList<Clickable>();
+
+void setupDemo() {
+  demo.add(new House(300, 100, 400, 200));
+  demo.add(new House(700, 500, 300, 400));
+  demo.add(new House(250, 600, 150, 300));
+  demo.add(new House(1100, 200, 400, 200));
+  demo.add(new Road(demo.houses.get(0), demo.houses.get(1)));
+  demo.add(new Road(demo.houses.get(1), demo.houses.get(3)));
+  demo.add(new Road(demo.houses.get(1), demo.houses.get(2)));
+  for (int i = 0; i < 20 * demo.houses.size(); i++) {
+     demo.addRandomPerson();
+  }
+}
 
 void setup() {
   size(1800, 950);
-  simulation.add(new House(300, 100, 400, 200));
-  simulation.add(new House(700, 500, 300, 400));
-  simulation.add(new House(250, 600, 150, 300));
-  simulation.add(new House(1100, 200, 400, 200));
-  simulation.add(new Road(simulation.houses.get(0), simulation.houses.get(1)));
-  simulation.add(new Road(simulation.houses.get(1), simulation.houses.get(3)));
-  for (int i = 0; i < 20 * simulation.houses.size(); i++) {
-     simulation.addRandomPerson();
-  }
-  //for (int i = 0; i < simulation.houses.size(); i++) {
-  //   simulation.setInfected(i);
-  //}
-  simulation.setInfected(0);
+  setupDemo();
+  currentSimulation = simulation;
+  buttons.add(new DemoButton(30, 20));
+  buttons.add(new PersonButton(50, 100));
+  buttons.add(new HouseButton(50, 225));
+  buttons.add(new RoadButton(50, 350));
 }
 
 void draw() {
-  background(255, 255, 255);
-  simulation.update();
-  simulation.display();
-  textAlign(CENTER, TOP);
-  fill(0);
-  textSize(30);
-  text("Virus Simulator", width/2, 20);
-  textSize(20);
-  text("Aaron He", width/2, 60);
-  textAlign(RIGHT, TOP);
-  text("Infected: " + simulation.ninfected, width - 10, 20);
-  text("Dead: " + simulation.ndead, width - 10, 50);
+  currentSimulation.update();
+  currentSimulation.display();
+  for (Clickable button : buttons) {
+    button.display();
+  }
+  message.display();
+}
+
+void mousePressed() {
+  for (int i = 0; i < buttons.size(); i++) {
+    Clickable button = buttons.get(i);
+    button.registerClick(mouseX, mouseY);
+  }
+}
+
+void resetButtons() {
+  message.clear();
+  for (Clickable b : buttons) {
+    b.activate(false);
+  }
 }

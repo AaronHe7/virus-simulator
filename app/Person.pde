@@ -1,15 +1,33 @@
 class Person {
-  float size = 7, maxSpeed = 1.5;
-  float x, y, vx, vy, ax, ay;
-  int startTime = 0, endTime;
+  static final float size = 7, maxSpeed = 1.5;
+  private float x, y, vx, vy, ax, ay;
+  private int startTime = 0, endTime;
   boolean infected = false, patientZero = false, onRoad = false;
-  int accerationTime = 50;
+  private int accerationTime = 50;
   House house;
   Person(House house) {
     this.house = house;
     x = random(house.x + size, house.x + house.w - size);
     y = random(house.y + size, house.y + house.h - size);
     resetSpeed();
+  }
+  Person(float x, float y) {
+    this.x = x;
+    this.y = y;
+    House nearestHouse = new House(0, 0, 0, 0);
+    float nearestDist = Float.MAX_VALUE;
+    for (House h : currentSimulation.houses) {
+      if (h.contains(x, y)) {
+        this.house = h;
+        return;
+      }
+      float curDist = dist(x, y, h.centerX, h.centerY);
+      if (curDist < nearestDist) {
+        nearestDist = curDist;
+        nearestHouse = h;
+      }
+    }
+    this.house = nearestHouse;
   }
   void resetSpeed() {
     if (startTime < endTime) {
@@ -23,7 +41,10 @@ class Person {
     endTime = startTime + accerationTime;
   }
   void update() {
-    if (!house.inHouse(x, y, size)) { // If the person is not in the designated house, move the user along a road to their house
+    if (patientZero) {
+      infected = true;
+    }
+    if (!house.contains(x, y, size)) { // If the person is not in the designated house, move the user along a road to their house
       onRoad = true;
       float dx = (house.centerX - x)/20;
       float dy = (house.centerY - y)/20;
@@ -59,7 +80,11 @@ class Person {
   void display() {
     noStroke();
     if (infected) {
-      fill(255, 0, 0);
+      if (patientZero) {
+        fill(0, 0, 255);
+      } else {
+        fill(255, 0, 0);
+      }
     } else {
       fill(255, 255, 255);
       stroke(0);
