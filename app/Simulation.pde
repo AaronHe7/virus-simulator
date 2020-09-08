@@ -2,11 +2,15 @@ class Simulation {
   ArrayList<House> houses = new ArrayList<House>();
   ArrayList<Person> persons = new ArrayList<Person>();
   ArrayList<Road> roads = new ArrayList<Road>();
+  ArrayList<Slider> sliders = new ArrayList<Slider>();
   ArrayList<ArrayList<Integer>> adjacent = new ArrayList<ArrayList<Integer>>();
   private int npersons = 0, ninfected = 0, ndead = 0, nhouses;
   private float totalArea = 0;
   private float virusR = 20, virusP = 0.01, healP = 0.0003, deathP = 0.00015, moveP = 0.0005;
   
+  Simulation() {
+    sliders.add(new Slider(1, 100, 20, 1300, 900));
+  }
   void update() {
     background(255, 255, 255);
     for (Person person : persons) {
@@ -47,6 +51,12 @@ class Simulation {
         }
       }
     }
+    if (mousePressed) {
+      for (Slider s : sliders) {
+        s.registerClick(mouseX, mouseY);
+        this.virusR = s.value;
+      }
+    }
   }
   
   void display() {
@@ -58,6 +68,9 @@ class Simulation {
     }
     for (Person p : persons) {
       p.display();
+    }
+    for (Slider s : sliders) {
+      s.display();
     }
     textAlign(CENTER, TOP);
     fill(0);

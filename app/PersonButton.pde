@@ -21,6 +21,10 @@ class PersonButton extends Button {
     boolean previouslyActive = active;
     super.registerClick(x, y);
     if (active && previouslyActive) {
+      if (currentSimulation.nhouses < 1) {
+        message.setMessage("There needs to be at least one house");
+        return;
+      }
       currentSimulation.add(new Person(x, y));
     }   
     if (active && !previouslyActive) {

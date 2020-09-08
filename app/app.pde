@@ -2,7 +2,8 @@ ArrayList<Simulation> simulations = new ArrayList<Simulation>();
 Simulation currentSimulation;
 Message message = new Message(200, 30);
 ArrayList<Clickable> buttons = new ArrayList<Clickable>();
-int tabs = 8;
+ArrayList<TabButton> tabs = new ArrayList<TabButton>();
+int ntabs = 8;
 
 void setupDemo() {
   Simulation demo = simulations.get(0);
@@ -20,12 +21,13 @@ void setupDemo() {
 
 void setup() {
   size(1800, 950);
-  for (int i = 0; i < tabs; i++) {
+  for (int i = 0; i < ntabs; i++) {
     simulations.add(new Simulation());
-    buttons.add(new TabButton(50, 400 + i * 100, i));
+    tabs.add(new TabButton(50, 450 + i * 60, 40, 40, i));
   }
   setupDemo();
   currentSimulation = simulations.get(0);
+  tabs.get(0).active = true;
   buttons.add(new PersonButton(50, 100));
   buttons.add(new HouseButton(50, 225));
   buttons.add(new RoadButton(50, 350));
@@ -37,13 +39,18 @@ void draw() {
   for (Clickable button : buttons) {
     button.display();
   }
+  for (Clickable tab : tabs) {
+    tab.display();
+  }
   message.display();
 }
 
 void mousePressed() {
-  for (int i = 0; i < buttons.size(); i++) {
-    Clickable button = buttons.get(i);
-    button.registerClick(mouseX, mouseY);
+  for (Clickable b : buttons) {
+    b.registerClick(mouseX, mouseY);
+  }
+  for (Clickable b : tabs) {
+    b.registerClick(mouseX, mouseY);
   }
 }
 
@@ -51,5 +58,17 @@ void resetButtons() {
   message.clear();
   for (Clickable b : buttons) {
     b.activate(false);
+  }
+  for (Clickable b : tabs) {
+    b.activate(false);
+  }
+}
+
+void keyPressed() {
+  if (key >= '1' && key <= '8') {
+    for (TabButton t : tabs) {
+      t.active = t.index == (key - '1');
+    }
+    currentSimulation = simulations.get(key - '1');
   }
 }
