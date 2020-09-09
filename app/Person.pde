@@ -1,3 +1,4 @@
+// People who walk around the house
 class Person {
   static final float size = 7, maxSpeed = 1.5;
   private float x, y, vx, vy, ax, ay;
@@ -14,6 +15,7 @@ class Person {
   Person(float x, float y) {
     this.x = x;
     this.y = y;
+    // The person's house is initially the nearest house that is found
     House nearestHouse = new House(0, 0, 0, 0);
     float nearestDist = Float.MAX_VALUE;
     for (House h : currentSimulation.houses) {
@@ -44,7 +46,8 @@ class Person {
     if (patientZero) {
       infected = true;
     }
-    if (!house.contains(x, y, size)) { // If the person is not in the designated house, move the user along a road to their house
+    // If the person is not in the designated house, move the person along a road to their house
+    if (!house.contains(x, y, size)) { 
       onRoad = true;
       float dx = (house.centerX - x)/20;
       float dy = (house.centerY - y)/20;
@@ -55,6 +58,7 @@ class Person {
       y += dy;
       return;
     }
+    // Remove acceleration after some time
     startTime++;
     if (startTime >= endTime) {
       ax = 0;
@@ -73,6 +77,7 @@ class Person {
     } else {
       vx = vy = 0;
     }
+    // Person randomly changes direction
     if (ax == 0 && ay == 0 && random(0, 1) < 0.05) {
       resetSpeed();
     }

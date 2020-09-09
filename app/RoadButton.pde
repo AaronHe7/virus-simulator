@@ -1,3 +1,4 @@
+// Adds a road
 class RoadButton extends Button {
   private boolean click1 = false, click2 = false;
   House h1, h2;
@@ -30,7 +31,9 @@ class RoadButton extends Button {
     }
     if (previouslyActive && active) {
       if (!click1) {
+        // First house
         boolean ok = false;
+        // Checks whether or not the user clicked a house
         for (House h : currentSimulation.houses) {
           if (h.contains(x, y)) {
             h1 = h;
@@ -46,6 +49,7 @@ class RoadButton extends Button {
           return;
         }
       } else {
+        // Second house
         assert(!click2);
         boolean ok = false;
         for (House h : currentSimulation.houses) {

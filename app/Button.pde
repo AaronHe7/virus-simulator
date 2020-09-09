@@ -1,3 +1,4 @@
+// Basic button class
 class Button implements Clickable {
   boolean active = false;
   float x, y, w = 60, h = 60;

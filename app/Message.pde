@@ -1,3 +1,4 @@
+// Adds a message to the screen
 class Message {
   float x, y;
   private int tickReset = 300;
@@ -22,6 +23,7 @@ class Message {
   void display() {
     tick++;
     textAlign(TOP, LEFT);
+    // Fading message
     fill(255, 0, 0, 255 * sqrt(1 - pow(((float)tick/tickReset), (float)2)));
     textSize(20);
     text(message, x, y);

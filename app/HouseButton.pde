@@ -1,3 +1,4 @@
+// Button for adding houses
 class HouseButton extends Button {
   private boolean click1 = false, click2 = false;
   private float x1, y1, x2, y2;
@@ -28,15 +29,18 @@ class HouseButton extends Button {
     super.registerClick(x, y);
     if (previouslyActive && active) {
       if (!click1) {
+        // Top left corner
         click1 = true;
         x1 = x;
         y1 = y;
       } else if (!click2) {
+        // Bottom right corner
         x2 = x;
         y2 = y;
         click2 = true;
         House newHouse = new House(min(x1, x2), min(y1, y2), abs(x2 - x1), abs(y2 - y1));
         boolean overlaps = false;
+        // Two houses cannot overlap
         for (House h : currentSimulation.houses) {
           if (h.overlaps(newHouse)) {
             overlaps = true;

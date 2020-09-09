@@ -1,3 +1,4 @@
+// Road that connects two houses
 class Road {
   House h1, h2;
   Road(House a, House b) {

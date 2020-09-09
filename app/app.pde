@@ -5,6 +5,7 @@ ArrayList<Clickable> buttons = new ArrayList<Clickable>();
 ArrayList<TabButton> tabs = new ArrayList<TabButton>();
 int ntabs = 8;
 
+// Create default simulation
 void setupDemo() {
   Simulation demo = simulations.get(0);
   demo.add(new House(300, 100, 400, 200));
@@ -21,6 +22,7 @@ void setupDemo() {
 
 void setup() {
   size(1800, 950);
+  // Add a simulation for each tab
   for (int i = 0; i < ntabs; i++) {
     simulations.add(new Simulation());
     tabs.add(new TabButton(50, 450 + i * 60, 40, 40, i));
@@ -28,11 +30,13 @@ void setup() {
   setupDemo();
   currentSimulation = simulations.get(0);
   tabs.get(0).active = true;
+  // Buttons that can customize a simulation
   buttons.add(new PersonButton(50, 100));
   buttons.add(new HouseButton(50, 225));
   buttons.add(new RoadButton(50, 350));
 }
 
+// Calls the draw function of the simulation, buttons, tabs, and messages.
 void draw() {
   currentSimulation.update();
   currentSimulation.display();
@@ -45,6 +49,7 @@ void draw() {
   message.display();
 }
 
+// Mouse interaction
 void mousePressed() {
   for (Clickable b : buttons) {
     b.registerClick(mouseX, mouseY);
@@ -54,6 +59,7 @@ void mousePressed() {
   }
 }
 
+// De-activate all buttons
 void resetButtons() {
   message.clear();
   for (Clickable b : buttons) {
@@ -64,6 +70,7 @@ void resetButtons() {
   }
 }
 
+// Keyboard interaction
 void keyPressed() {
   if (key >= '1' && key <= '8') {
     for (TabButton t : tabs) {

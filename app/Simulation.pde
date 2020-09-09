@@ -1,3 +1,4 @@
+// A simulation contains all roads, houses, and people. Each simulation is independant.
 class Simulation {
   ArrayList<House> houses = new ArrayList<House>();
   ArrayList<Person> persons = new ArrayList<Person>();
@@ -9,7 +10,7 @@ class Simulation {
   private float virusR = 20, virusP = 0.01, healP = 0.0003, deathP = 0.00015, moveP = 0.0005;
   
   Simulation() {
-    sliders.add(new Slider(1, 100, 20, 1300, 900));
+    sliders.add(new Slider(1, 100, virusR, 1300, 900));
   }
   void update() {
     background(255, 255, 255);
@@ -33,11 +34,13 @@ class Simulation {
             break;
           }
         }
+        // If the person is close to another person, they have a chance of being infected
         if (inContact && random(0, 1) < virusP) {
           p1.infected = true;
           ninfected++;
         }
       } else if (!p1.patientZero || (ninfected + ndead >= (npersons + ndead)/2 && npersons >= 20)) {
+        // A person will have a chance of being healed, or die if they are not the patient zero, or if enough people are infected
         if (random(0, 1) < healP) {
           p1.patientZero = false;
           ninfected--;
@@ -51,11 +54,14 @@ class Simulation {
         }
       }
     }
-    if (mousePressed) {
-      for (Slider s : sliders) {
-        s.registerClick(mouseX, mouseY);
-        this.virusR = s.value;
+    for (Slider s : sliders) {
+      // When slider is initially clicked, it is "active" and can be dragged until mouse is released
+      if (!s.clicked) {
+        s.clicked = mousePressed && s.contains(mouseX, mouseY);
       }
+      s.clicked &= mousePressed;
+      s.registerClick(mouseX, mouseY);
+      this.virusR = s.value;
     }
   }
   
@@ -72,6 +78,7 @@ class Simulation {
     for (Slider s : sliders) {
       s.display();
     }
+    // Title, statistics, and credits
     textAlign(CENTER, TOP);
     fill(0);
     textSize(30);
@@ -84,7 +91,7 @@ class Simulation {
   }
   
   void addRandomPerson() {  
-    float prefix = 0; // make people in house proportional to area
+    float prefix = 0; // Make people in house proportional to area
     float rand = random(0, totalArea);
     for (House h : houses) {
        float area = h.h * h.w;

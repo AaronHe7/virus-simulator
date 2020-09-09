@@ -1,3 +1,4 @@
+// Houses where all the people are assigned
 class House {
   float x, y, w, h, centerX, centerY;
   int id;

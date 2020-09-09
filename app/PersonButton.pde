@@ -1,3 +1,4 @@
+// Button that adds people
 class PersonButton extends Button {
   PersonButton(float x, float y, float w, float h) {
     super(x, y, w, h, "Add Person");

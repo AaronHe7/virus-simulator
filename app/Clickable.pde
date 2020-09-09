@@ -1,3 +1,4 @@
+// Clickable interface for anything that can be clicked
 interface Clickable {
   void display();
   boolean contains(float x, float y);

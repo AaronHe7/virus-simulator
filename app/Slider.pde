@@ -1,5 +1,5 @@
 class Slider {
-  public float value, min, max, x, y, r = 50, w = 400, circle_x = 0;
+  public float value, min, max, x, y, r = 25, w = 400, circle_x = 0;
   private float textSize = 20;
   public boolean clicked = true;
   Slider(float min, float max, float value, float x, float y) {
@@ -16,7 +16,7 @@ class Slider {
     stroke(0);
     strokeWeight(1);
     line(x, y, x + w, y);
-    circle(circle_x, y, r);
+    circle(circle_x, y, 2 * r);
     textSize(textSize);
     fill(0); 
     textAlign(CENTER, BOTTOM);
@@ -24,14 +24,12 @@ class Slider {
     text("Virus radius", x + w/2, y - r/2 - textSize - 10);
   }
   void registerClick(float x, float y) {
-    if (Math.pow(y - this.y, 2) + Math.pow(x - circle_x, 2) <= r * r) {
-      clicked = true;
-    } else {
-      clicked = false;
-    }
     if (clicked) {
       this.value = Math.max(min, Math.min(max, min + (x - this.x)/w * (max - min)));
       this.circle_x = this.x + w * (value - min)/(max - min);
     }
   }
+  boolean contains(float x, float y) {
+    return Math.pow(y - this.y, 2) + Math.pow(x - circle_x, 2) <= r * r;
+  } 
 }
