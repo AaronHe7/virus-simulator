@@ -5,15 +5,18 @@ class Simulation {
   ArrayList<Road> roads = new ArrayList<Road>();
   ArrayList<Slider> sliders = new ArrayList<Slider>();
   ArrayList<ArrayList<Integer>> adjacent = new ArrayList<ArrayList<Integer>>();
-  private int npersons = 0, ninfected = 0, ndead = 0, nhouses;
+  private int npersons = 0, ninfected = 0, ndead = 0, ncases = 0, nhouses;
+  private int time = 0;
   private float totalArea = 0;
   private float virusR = 20, virusP = 0.01, healP = 0.0003, deathP = 0.00015, moveP = 0.0005;
+  Graph graph = new Graph(1400, 500, 300, 300);
   
   Simulation() {
-    sliders.add(new Slider(1, 100, virusR, 1300, 900));
+    sliders.add(new Slider(1, 80, virusR, 1300, 900, "Virus radius"));
+    graph.addLine();
   }
   void update() {
-    background(255, 255, 255);
+    time++;
     for (Person person : persons) {
       if (random(0, 1) < moveP && !person.onRoad) { // switch houses at random
          House newhouse = randomHouse();
@@ -38,6 +41,7 @@ class Simulation {
         if (inContact && random(0, 1) < virusP) {
           p1.infected = true;
           ninfected++;
+          ncases++;
         }
       } else if (!p1.patientZero || (ninfected + ndead >= (npersons + ndead)/2 && npersons >= 20)) {
         // A person will have a chance of being healed, or die if they are not the patient zero, or if enough people are infected
@@ -54,6 +58,7 @@ class Simulation {
         }
       }
     }
+    
     for (Slider s : sliders) {
       // When slider is initially clicked, it is "active" and can be dragged until mouse is released
       if (!s.clicked) {
@@ -63,9 +68,13 @@ class Simulation {
       s.registerClick(mouseX, mouseY);
       this.virusR = s.value;
     }
+    if (time % graph.updateFrequency == 0) {
+      graph.addEntry(0, ncases);
+    }
   }
   
   void display() {
+    background(255, 255, 255);
     for (Road r : roads) {
       r.display();
     }
@@ -75,6 +84,7 @@ class Simulation {
     for (Person p : persons) {
       p.display();
     }
+    graph.display();
     for (Slider s : sliders) {
       s.display();
     }
@@ -86,8 +96,12 @@ class Simulation {
     textSize(20);
     text("Aaron He", width/2, 60);
     textAlign(RIGHT, TOP);
-    text("Infected: " + ninfected, width - 10, 20);
-    text("Dead: " + ndead, width - 10, 50);
+    // Total number of infections
+    text("Cases: " + ncases, width - 10, 20);
+    // Number of people who are currently infected
+    text("Infected: " + ninfected, width - 10, 50);
+    // Number of dead people
+    text("Dead: " + ndead, width - 10, 80);
   }
   
   void addRandomPerson() {  
@@ -119,8 +133,10 @@ class Simulation {
   void add(Person p) {
     npersons++;
     persons.add(p);
+    // The first person is given the virus
     if (npersons == 1) {
       ninfected++;
+      ncases++;
       p.patientZero = true;
     }
   }

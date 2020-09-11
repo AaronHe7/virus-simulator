@@ -1,3 +1,4 @@
+// Buttons that switches between tabs
 class TabButton extends Button {
   private int index;
   House h1, h2;

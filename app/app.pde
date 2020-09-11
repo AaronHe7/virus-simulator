@@ -21,6 +21,7 @@ void setupDemo() {
 }
 
 void setup() {
+  frameRate(60);
   size(1800, 950);
   // Add a simulation for each tab
   for (int i = 0; i < ntabs; i++) {
