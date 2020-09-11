@@ -57,6 +57,8 @@ class Person {
       x += dx;
       y += dy;
       return;
+    } else {
+      onRoad = false;
     }
     // Remove acceleration after some time
     startTime++;
