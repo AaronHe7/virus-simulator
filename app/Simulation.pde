@@ -6,17 +6,34 @@ class Simulation {
   ArrayList<Slider> sliders = new ArrayList<Slider>();
   ArrayList<ArrayList<Integer>> adjacent = new ArrayList<ArrayList<Integer>>();
   private int npersons = 0, ninfected = 0, ndead = 0, ncases = 0, nhouses;
-  private int time = 0;
+  private boolean paused = false;
   private float totalArea = 0;
   private float virusR = 20, virusP = 0.01, healP = 0.0003, deathP = 0.00015, moveP = 0.0005;
-  Graph graph = new Graph(1400, 500, 300, 300);
+  Graph graph = new Graph(1540, 350, 300, 300);
   
   Simulation() {
-    sliders.add(new Slider(1, 80, virusR, 1300, 900, "Virus radius"));
-    graph.addLine();
+    sliders.add(new Slider(1, 80, virusR, 1520, 900, "Virus radius"));
+    sliders.add(new Slider(0, 0.2, moveP * 100, 1520, 800, "Travel rate"));
+    graph.addLine(255, 0, 0);
+    graph.addLine(0, 255, 0);
+    graph.addLine(0, 0, 255);
   }
-  void update() {
-    time++;
+  
+  void updateSliders() {
+    for (Slider s : sliders) {
+      // When slider is initially clicked, it is "active" and can be dragged until mouse is released
+      if (!s.clicked) {
+        s.clicked = mousePressed && s.contains(mouseX, mouseY);
+      }
+      s.clicked &= mousePressed;
+      s.registerClick(mouseX, mouseY);
+    }
+    this.virusR = sliders.get(0).value;
+    this.moveP = sliders.get(1).value/100;
+  }
+  
+  // Infect people too close, people randomly heal/die
+  void updatePeople() {
     for (Person person : persons) {
       if (random(0, 1) < moveP && !person.onRoad) { // switch houses at random
          House newhouse = randomHouse();
@@ -58,19 +75,27 @@ class Simulation {
         }
       }
     }
-    
-    for (Slider s : sliders) {
-      // When slider is initially clicked, it is "active" and can be dragged until mouse is released
-      if (!s.clicked) {
-        s.clicked = mousePressed && s.contains(mouseX, mouseY);
+  }
+  
+  void updateGraph() {
+    if (ninfected > 0 && npersons > 0) {
+      graph.update();
+      
+      if (graph.time % graph.updateFrequency == 0) {
+        graph.addEntry(0, ncases);
+        graph.addEntry(1, ninfected);
+        graph.addEntry(2, ndead);
       }
-      s.clicked &= mousePressed;
-      s.registerClick(mouseX, mouseY);
-      this.virusR = s.value;
     }
-    if (time % graph.updateFrequency == 0) {
-      graph.addEntry(0, ncases);
+  }
+  
+  void update() {
+    updateSliders();
+    if (paused) {
+      return;
     }
+    updatePeople();
+    updateGraph();
   }
   
   void display() {

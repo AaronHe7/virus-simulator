@@ -1,6 +1,6 @@
 // Sliders that can control certain factors (e.g. radius of transmission)
 class Slider {
-  public float value, min, max, x, y, r = 25, w = 400, circle_x = 0;
+  public float value, min, max, x, y, r = 25, w = 350, circle_x = 0;
   private String caption;
   private float textSize = 20;
   public boolean clicked = true;

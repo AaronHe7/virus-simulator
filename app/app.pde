@@ -11,7 +11,7 @@ void setupDemo() {
   demo.add(new House(300, 100, 400, 200));
   demo.add(new House(700, 500, 300, 400));
   demo.add(new House(250, 600, 150, 300));
-  demo.add(new House(1100, 200, 400, 200));
+  demo.add(new House(1100, 200, 380, 200));
   demo.add(new Road(demo.houses.get(0), demo.houses.get(1)));
   demo.add(new Road(demo.houses.get(1), demo.houses.get(3)));
   demo.add(new Road(demo.houses.get(1), demo.houses.get(2)));
@@ -22,7 +22,7 @@ void setupDemo() {
 
 void setup() {
   frameRate(60);
-  size(1800, 950);
+  size(1900, 950);
   // Add a simulation for each tab
   for (int i = 0; i < ntabs; i++) {
     simulations.add(new Simulation());
