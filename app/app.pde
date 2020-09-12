@@ -11,7 +11,7 @@ void setupDemo() {
   demo.add(new House(300, 100, 400, 200));
   demo.add(new House(700, 500, 300, 400));
   demo.add(new House(250, 600, 150, 300));
-  demo.add(new House(1100, 200, 380, 200));
+  demo.add(new House(1100, 200, 340, 200));
   demo.add(new Road(demo.houses.get(0), demo.houses.get(1)));
   demo.add(new Road(demo.houses.get(1), demo.houses.get(3)));
   demo.add(new Road(demo.houses.get(1), demo.houses.get(2)));
@@ -30,6 +30,7 @@ void setup() {
   }
   setupDemo();
   currentSimulation = simulations.get(0);
+  currentSimulation.playButton.on = false;
   tabs.get(0).active = true;
   // Buttons that can customize a simulation
   buttons.add(new PersonButton(50, 100));
@@ -39,7 +40,9 @@ void setup() {
 
 // Calls the draw function of the simulation, buttons, tabs, and messages.
 void draw() {
-  currentSimulation.update();
+  for (Simulation s : simulations) {
+    s.update();
+  }
   currentSimulation.display();
   for (Clickable button : buttons) {
     button.display();
@@ -58,6 +61,7 @@ void mousePressed() {
   for (Clickable b : tabs) {
     b.registerClick(mouseX, mouseY);
   }
+   currentSimulation.playButton.registerClick(mouseX, mouseY);
 }
 
 // De-activate all buttons

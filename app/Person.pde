@@ -42,10 +42,13 @@ class Person {
     ay = (newVy - vy)/accerationTime;
     endTime = startTime + accerationTime;
   }
+  
+  void setPatientZero() {
+    patientZero = true;
+    infected = true;
+  }
+  
   void update() {
-    if (patientZero) {
-      infected = true;
-    }
     // If the person is not in the designated house, move the person along a road to their house
     if (!house.contains(x, y, size)) { 
       onRoad = true;

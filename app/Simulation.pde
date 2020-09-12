@@ -5,21 +5,23 @@ class Simulation {
   ArrayList<Road> roads = new ArrayList<Road>();
   ArrayList<Slider> sliders = new ArrayList<Slider>();
   ArrayList<ArrayList<Integer>> adjacent = new ArrayList<ArrayList<Integer>>();
+  PlayButton playButton = new PlayButton(width - 70, 120);
   private int npersons = 0, ninfected = 0, ndead = 0, ncases = 0, nhouses;
-  private boolean paused = false;
+  private boolean paused = true;
   private float totalArea = 0;
   private float virusR = 20, virusP = 0.01, healP = 0.0003, deathP = 0.00015, moveP = 0.0005;
-  Graph graph = new Graph(1540, 350, 300, 300);
+  Graph graph = new Graph(width - 360, 350, 300, 300);
   
   Simulation() {
-    sliders.add(new Slider(1, 80, virusR, 1520, 900, "Virus radius"));
-    sliders.add(new Slider(0, 0.2, moveP * 100, 1520, 800, "Travel rate"));
+    sliders.add(new Slider(1, 80, virusR, width - 380, 900, "Virus radius"));
+    sliders.add(new Slider(0, 0.2, moveP * 100, width - 380, 800, "Travel rate"));
     graph.addLine(255, 0, 0);
     graph.addLine(0, 255, 0);
     graph.addLine(0, 0, 255);
   }
   
   void updateSliders() {
+    paused = playButton.on;
     for (Slider s : sliders) {
       // When slider is initially clicked, it is "active" and can be dragged until mouse is released
       if (!s.clicked) {
@@ -113,6 +115,7 @@ class Simulation {
     for (Slider s : sliders) {
       s.display();
     }
+    playButton.display();
     // Title, statistics, and credits
     textAlign(CENTER, TOP);
     fill(0);
@@ -127,6 +130,8 @@ class Simulation {
     text("Infected: " + ninfected, width - 10, 50);
     // Number of dead people
     text("Dead: " + ndead, width - 10, 80);
+    // Number of alive people
+    text("Alive: " + npersons, width - 10, 200);
   }
   
   void addRandomPerson() {  
@@ -162,7 +167,7 @@ class Simulation {
     if (npersons == 1) {
       ninfected++;
       ncases++;
-      p.patientZero = true;
+      p.setPatientZero();
     }
   }
   
