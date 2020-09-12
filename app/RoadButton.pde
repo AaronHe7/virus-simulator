@@ -29,7 +29,7 @@ class RoadButton extends Button {
     if (!active) {
       click1 = click2 = false;
     }
-    if (previouslyActive && active) {
+    if (previouslyActive && active && !buttonClicked) {
       if (!click1) {
         // First house
         boolean ok = false;

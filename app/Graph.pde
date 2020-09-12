@@ -6,7 +6,24 @@ class Graph {
   public int updateFrequency = 30, time = 0;
   private float x, y, w, h;
   private float textSize = 15;
-
+  
+  // Clone graph without reference
+  Graph(Graph g) {
+    this(g.x, g.y, g.w, g.h);
+    for (ArrayList<Integer> a : g.graph) {
+      graph.add(new ArrayList<Integer>());
+      for (int e : a) {
+        graph.get(graph.size() - 1).add(e);
+      }
+    }
+    for (ArrayList<Float> a : g.colors) {
+      colors.add(new ArrayList<Float>());
+      for (float e : a) {
+        colors.get(colors.size() - 1).add(e);
+      }
+    }
+  }
+  
   Graph(float x, float y, float w, float h) {
     this.x = x;
     this.y = y;

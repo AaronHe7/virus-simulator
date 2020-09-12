@@ -3,6 +3,10 @@ class House {
   float x, y, w, h, centerX, centerY;
   int id;
   
+  House(House h) {
+    this(h.x, h.y, h.w, h.h);
+  }
+  
   House(float x, float y, float w, float h) {
     this.x = x;
     this.y = y;

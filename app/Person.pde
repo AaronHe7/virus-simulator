@@ -12,6 +12,22 @@ class Person {
     y = random(house.y + size, house.y + house.h - size);
     resetSpeed();
   }
+  
+  Person(Person p, House h) {
+    this.house = h;
+    this.x = p.x;
+    this.y = p.y;
+    this.infected = p.infected;
+    this.patientZero = p.patientZero;
+    this.onRoad = p.onRoad;
+    this.vx = p.vx;
+    this.vy = p.vy;
+    this.ax = p.ax;
+    this.ay = p.ay;
+    this.startTime = p.startTime;
+    this.endTime = p.endTime;
+  }
+  
   Person(float x, float y) {
     this.x = x;
     this.y = y;

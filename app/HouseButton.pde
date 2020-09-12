@@ -27,7 +27,7 @@ class HouseButton extends Button {
   void registerClick(float x, float y) {
     boolean previouslyActive = active;
     super.registerClick(x, y);
-    if (previouslyActive && active) {
+    if (previouslyActive && active && !buttonClicked) {
       if (!click1) {
         // Top left corner
         click1 = true;

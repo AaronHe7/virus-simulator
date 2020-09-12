@@ -10,6 +10,7 @@ class Simulation {
   private boolean paused = true;
   private float totalArea = 0;
   private float virusR = 20, virusP = 0.01, healP = 0.0003, deathP = 0.00015, moveP = 0.0005;
+  public int id;
   Graph graph = new Graph(width - 360, 350, 300, 300);
   
   Simulation() {
@@ -20,8 +21,25 @@ class Simulation {
     graph.addLine(0, 0, 255);
   }
   
+  // Copy constructor
+  Simulation(Simulation s) {
+    this();
+    for (House h : s.houses) {
+      add(new House(h));
+    }
+    for (Person p : s.persons) {
+      add(new Person(p, houses.get(p.house.id)));
+    }
+    for (Road r : s.roads) {
+      add(new Road(houses.get(r.h1.id), houses.get(r.h2.id)));
+    }
+    ninfected = s.ninfected;
+    ndead = s.ndead;
+    ncases = s.ncases;
+    graph = new Graph(s.graph);
+  }
+  
   void updateSliders() {
-    paused = playButton.on;
     for (Slider s : sliders) {
       // When slider is initially clicked, it is "active" and can be dragged until mouse is released
       if (!s.clicked) {
@@ -62,7 +80,7 @@ class Simulation {
           ninfected++;
           ncases++;
         }
-      } else if (!p1.patientZero || (ninfected + ndead >= (npersons + ndead)/2 && npersons >= 20)) {
+      } else if (!p1.patientZero || (ninfected + ndead >= (npersons + ndead)/3 && npersons >= 5)) {
         // A person will have a chance of being healed, or die if they are not the patient zero, or if enough people are infected
         if (random(0, 1) < healP) {
           p1.patientZero = false;
@@ -82,7 +100,6 @@ class Simulation {
   void updateGraph() {
     if (ninfected > 0 && npersons > 0) {
       graph.update();
-      
       if (graph.time % graph.updateFrequency == 0) {
         graph.addEntry(0, ncases);
         graph.addEntry(1, ninfected);
@@ -92,7 +109,7 @@ class Simulation {
   }
   
   void update() {
-    updateSliders();
+    paused = !playButton.on;
     if (paused) {
       return;
     }
