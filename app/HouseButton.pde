@@ -1,5 +1,6 @@
 // Button for adding houses
 class HouseButton extends Button {
+  // Each house is made by two clicks
   private boolean click1 = false, click2 = false;
   private float x1, y1, x2, y2;
   

@@ -15,6 +15,7 @@ class RoadButton extends Button {
     super.display();
     fill(255);
     strokeWeight(1);
+    // Road icon
     line(x + 2 * w/3, y + h/6, x + w/6, y + 2 * h/3);
     line(x + 5 * w/6, y + h/3, x + w/3, y + 5 * h/6);
     for (int i = 0; i < 3; i++) {

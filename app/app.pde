@@ -28,6 +28,7 @@ void setupDemo() {
 }
 
 void setup() {
+  frame.setTitle("Virus Simulator");
   frameRate(60);
   size(1900, 950);
   // Add a simulation for each tab
@@ -134,6 +135,7 @@ void keyPressed() {
 }
 
 void keyReleased() {
+  // Detect when shift/contol key is released
   if (key == CODED) {
     if (keyCode == SHIFT) {
       isShift = false;
