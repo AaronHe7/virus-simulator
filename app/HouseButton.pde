@@ -14,7 +14,6 @@ class HouseButton extends Button {
   
   void display() {
     super.display();
-    fill(255);
     strokeWeight(2);
     line(x + w/2, y + h/6, x + w/6, y + h/2);
     line(x + w/2, y + h/6, x + 5 * w/6, y + h/2);

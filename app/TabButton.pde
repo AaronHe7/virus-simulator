@@ -16,13 +16,7 @@ class TabButton extends Button {
   void display() {
     fill(255);
     strokeWeight(3);
-    if (active) {
-      stroke(0, 0, 220);
-    } else if (contains(mouseX, mouseY)) {
-      stroke(50, 50, 50);
-    } else {
-      stroke(0);
-    }
+    super.fillBackground();
     rect(x, y, w, h);
     textSize(super.textSize);
     fill(0);

@@ -11,9 +11,7 @@ class PersonButton extends Button {
   void display() {
     super.display();
     stroke(0);
-    fill(255);
     circle(x + w/2, y + h/2, h/2);
-    fill(0);
     circle(x + 5 * w/12, y + h/2, h/20);
     circle(x + 7 * w/12, y + h/2, h/20);
   }

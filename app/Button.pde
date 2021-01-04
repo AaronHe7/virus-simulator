@@ -19,21 +19,24 @@ class Button implements Clickable {
     this.caption = caption;
   }
   
-  void display() {
-    fill(255);
+  private void fillBackground() {
+    fill(245);
     strokeWeight(3);
     if (active) {
-      stroke(0, 0, 220);
+      fill(180);
     } else if (contains(mouseX, mouseY)) {
-      stroke(50, 50, 50);
-    } else {
-      stroke(0);
+      fill(220);
     }
+  }
+  
+  void display() {
+    fillBackground();
     rect(x, y, w, h);
     textSize(textSize);
     fill(0);
     textAlign(CENTER, BOTTOM);
     text(caption, x + w/2, y - 10);
+    fillBackground(); 
   }
   
   boolean contains(float x, float y) {

@@ -15,7 +15,7 @@ class Slider {
     this.circle_x = x + w * (value - min)/(max - min);
   }
   void display() {
-    fill(255); 
+    fill(160); 
     stroke(0);
     strokeWeight(1);
     line(x, y, x + w, y);
