@@ -6,8 +6,8 @@ class Road {
     h2 = b;
   }
   void display() {
-    strokeWeight(20);
-    stroke(0);
+    strokeWeight(40);
+    stroke(64);
     line(h1.centerX, h1.centerY, h2.centerX, h2.centerY);
   }
 }

@@ -17,7 +17,7 @@ class Simulation {
     sliders.add(new Slider(1, 80, virusR, width - 380, 900, "Virus radius"));
     sliders.add(new Slider(0, 0.2, moveP * 100, width - 380, 800, "Travel rate"));
     graph.addLine(255, 0, 0);
-    graph.addLine(0, 255, 0);
+    graph.addLine(255, 255, 0);
     graph.addLine(0, 0, 255);
   }
   
@@ -118,7 +118,10 @@ class Simulation {
   }
   
   void display() {
+    // White
     background(255, 255, 255);
+    // Green
+    background(86, 232, 86);
     for (Road r : roads) {
       r.display();
     }

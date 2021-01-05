@@ -27,6 +27,13 @@ class Button implements Clickable {
     } else if (contains(mouseX, mouseY)) {
       fill(220);
     }
+    //fill(247, 222, 143);
+    //strokeWeight(3);
+    //if (active) {
+    //  fill(245, 195, 32);
+    //} else if (contains(mouseX, mouseY)) {
+    //  fill(252, 214, 91);
+    //}
   }
   
   void display() {

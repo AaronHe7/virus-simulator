@@ -104,17 +104,16 @@ class Person {
     }
   }
   void display() {
-    noStroke();
+    strokeWeight(2);
     if (infected) {
       if (patientZero) {
-        fill(0, 0, 255);
+        fill(255, 119, 0);
       } else {
         fill(255, 0, 0);
       }
     } else {
       fill(255, 255, 255);
-      stroke(0);
-      strokeWeight(1);
+      fill(242, 205, 90);
     }
     ellipse(x, y, 2 * size, 2 * size); 
   }
